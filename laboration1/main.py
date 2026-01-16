@@ -15,15 +15,17 @@ class Pokemon:
         self.speed = speed
         self.generation = generation
         self.legendary = legendary
+
     def __str__(self):
-        return self.name + ": " + self.type1
+        return f"#{self.index} {self.name} - {self.hp}HP"
+
     def __lt__(self, other):
         if(self.hp < other.hp):
             return True
         if(self.index < other.index):
             return True
         return False
-    
+
 class Pokedex:
     def __init__(self, pokemon_csv):
         self.pokemon = []
@@ -31,7 +33,7 @@ class Pokedex:
 
     def __str__(self):
         all_pokemon = ""
-        for p in self.pokemon: 
+        for p in self.pokemon:
             all_pokemon += (p.name + ", ")
         return all_pokemon
 
@@ -45,7 +47,7 @@ class Pokedex:
             # Ett par tester
             if rows[0][1] != "Name": print("Test misslyckades. Förväntade mig 'Name' men fick", rows[0][1], " i raden:\n\t", rows[0])
             if rows[1][1] != "Bulbasaur": print("Test misslyckades. Förväntade mig 'Bulbasaur' men fick", rows[1][1], " i raden:\n\t", rows[1])
-            all_pokemon = rows;
+            all_pokemon = rows
 
         pokemon_class_list = []
         for p in all_pokemon:
@@ -53,17 +55,21 @@ class Pokedex:
             pokemon_class_list.append(new_pokemon)
         self.pokemon = pokemon_class_list
         return pokemon_class_list
-    
+
     def get_pokemon_by_index(self, pokemon_index):
+        if(pokemon_index > len(self.pokemon)):
+            return ValueError
+
         for p in self.pokemon:
             if p.index == pokemon_index:
                 return p
-            
+
     def get_pokemon_by_name(self, pokemon_name):
+
         for p in self.pokemon:
             if p.name == pokemon_name:
                 return p
-            
+
 def main():
     pokedex = Pokedex("pokemon.csv")
     print(pokedex)
@@ -72,19 +78,30 @@ def main():
         print("_______POKEDEX_______")
         print("Vad vill du göra: ")
         print("1. Sök efter pokemon")
+        print("2. jämför pokemon")
         choice = input()
-        if(choice == "1"): 
+        if(choice == "1"):
             print("1. Sök med index")
             print("2. Sök med namn")
             choice2 = input()
 
             print("input: ")
             keyword = input()
-            
+
             if choice2 == "1":
                 print(pokedex.get_pokemon_by_index(keyword))
             elif choice2 == "2":
                 print(pokedex.get_pokemon_by_name(keyword))
+        elif(choice == "2"):
+            print("Vilka pokemon vill du jämföra: (index-index): ")
+            pokemon = (input()).split("-")
 
-main() 
+            pokemon1 = pokedex.get_pokemon_by_index(pokemon[0])
+            pokemon2 = pokedex.get_pokemon_by_index(pokemon[0])
 
+            if(pokemon1 < pokemon2):
+                print(pokemon2)
+            else:
+                print(pokemon1)
+
+main()
