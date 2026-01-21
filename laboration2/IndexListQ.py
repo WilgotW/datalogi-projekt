@@ -3,6 +3,12 @@ class IndexListQ:
     def __init__(self):
         self.data = []
 
+    def __str__(self):
+        data_string = ""
+        for i in self.data:
+            data_string += f" {i} "
+        return data_string
+
     def enqueue(self, new_data):
         self.data.insert(0, new_data)
 
@@ -13,7 +19,7 @@ class IndexListQ:
         if(len(self.data) == 0):
             return True
         return False
-    
+
 def basictest():
     q = IndexListQ()
     q.enqueue(1)
