@@ -57,51 +57,67 @@ class Pokedex:
         return pokemon_class_list
 
     def get_pokemon_by_index(self, pokemon_index):
-        if(pokemon_index > len(self.pokemon)):
-            return ValueError
-
         for p in self.pokemon:
             if p.index == pokemon_index:
                 return p
+        return print("No pokemon found")    
+        
 
     def get_pokemon_by_name(self, pokemon_name):
-
         for p in self.pokemon:
             if p.name == pokemon_name:
                 return p
 
+
+def out_of_bounds(pokemon_index, pokedex_count):
+    if(pokemon_index > pokedex_count or pokemon_index < 0):
+        return True
+    return False
+
 def main():
     pokedex = Pokedex("pokemon.csv")
-    print(pokedex)
 
     while True:
-        print("_______POKEDEX_______")
-        print("Vad vill du göra: ")
-        print("1. Sök efter pokemon")
-        print("2. jämför pokemon")
+        print(
+            "_______POKEDEX_______ \n"
+            "Vad vill du göra:  \n"
+            "1. Sök efter pokemon \n"  
+            "2. jämför pokemon \n"
+        )
         choice = input()
+
         if(choice == "1"):
-            print("1. Sök med index")
-            print("2. Sök med namn")
+            print(
+                "1. Sök med index \n"
+                "2. Sök med namn \n"
+            )
             choice2 = input()
 
-            print("input: ")
-            keyword = input()
+            print("Önskad pokemon: ")
+            pokemon_keyword = input()
 
             if choice2 == "1":
-                print(pokedex.get_pokemon_by_index(keyword))
+                if out_of_bounds(int(pokemon_keyword), len(pokedex.pokemon)):
+                    return print("Index out of bounds, try again")
+                print(pokedex.get_pokemon_by_index(pokemon_keyword))
+
             elif choice2 == "2":
-                print(pokedex.get_pokemon_by_name(keyword))
+                print(pokedex.get_pokemon_by_name(pokemon_keyword))
+
         elif(choice == "2"):
             print("Vilka pokemon vill du jämföra: (index-index): ")
-            pokemon = (input()).split("-")
+            pokemon_index = (input()).split("-")
 
-            pokemon1 = pokedex.get_pokemon_by_index(pokemon[0])
-            pokemon2 = pokedex.get_pokemon_by_index(pokemon[0])
+            if (out_of_bounds(int(pokemon_index[0]), len(pokedex.pokemon)) or
+                out_of_bounds(int(pokemon_index[1]), len(pokedex.pokemon))):
+                return print("Index out of bounds, try again")
+
+            pokemon1 = pokedex.get_pokemon_by_index(pokemon_index[0])
+            pokemon2 = pokedex.get_pokemon_by_index(pokemon_index[0])
 
             if(pokemon1 < pokemon2):
-                print(pokemon2)
+                print(str(pokemon2) + " Vann över " + str(pokemon1))
             else:
-                print(pokemon1)
+                print(str(pokemon1) + " Vann över " + str(pokemon2))
 
 main()
