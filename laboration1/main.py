@@ -26,6 +26,7 @@ class Pokemon:
             return True
         return False
 
+
 class Pokedex:
     def __init__(self, pokemon_csv):
         self.pokemon = []
@@ -53,6 +54,7 @@ class Pokedex:
         for p in all_pokemon:
             new_pokemon = Pokemon(p[0], p[1], p[2], p[3], p[4], p[5], p[6], p[7], p[8], p[9], p[10], p[11], p[12])
             pokemon_class_list.append(new_pokemon)
+
         self.pokemon = pokemon_class_list
         return pokemon_class_list
 
@@ -67,7 +69,6 @@ class Pokedex:
         for p in self.pokemon:
             if p.name == pokemon_name:
                 return p
-
 
 def out_of_bounds(pokemon_index, pokedex_count):
     if(pokemon_index > pokedex_count or pokemon_index < 0):

@@ -1,53 +1,82 @@
-class Bintree:
+
+class TreeNode: 
+    def __init__(self, key = None):
+        self.key = key
+        self.parent = None
+        self.right_node = None
+        self.left_node = None
+
+
+class Bintree: 
     def __init__(self):
         self.root = None
-        self.size = 0
+        self.key = None
+        pass
 
-    def __contains__(self, item):
-        if item in self.root:
+    def store(self, key):
+        #sort new key into tree
+        if self.root is None:
+            self.root = TreeNode(key)
+        else:
+            recstore(self.root, key)
+        pass
+
+    def __contains__(self, key):
+        #return true if key is found in the tree
+        #call recsearch
+        if key == self.root.key:
             return True
-        return False
+        else:
+            return recsearch(self.root, key)
     
-    def store(self, item):
-        self.root = rekstore(item)
-
     def write(self):
-        re
+        #print tree in inorder
+        ordered_list = []
+        recwrite(self.root, ordered_list)
+        pass
 
-    def recstore(self, item):
-        return
-    
-    def recsearch(self):
-        return
-    
-    def recwrite(self):
-        return
-    
-class TreeNode:
-    def __init__(self, key, payload, left=None, right=None, parent=None):
-        self.key = key
-        self.payload = payload
-        self.left_child = left
-        self.right_child = right
-        self.parent:TreeNode = parent
+#recursive store
+def recstore(current_node:TreeNode, key):
+    #create new node at right place
+    #recrusive function to find right place to store key 
+    #go left
+    if key <= current_node.key:
+        if current_node.left_node is None:
+            new_node = TreeNode(key)
+            new_node.parent = current_node
+            current_node.left_node = new_node
+        else:
+            #keep going down
+            recstore(current_node.left_node, key)
+    #go left
+    if key > current_node.key:
+        if current_node.right_node is None: 
+            new_node = TreeNode(key)
+            new_node.parent = current_node
+            current_node.right_node = new_node
+        else:
+            recstore(current_node.right_node, key)    
 
-    def hasLeftChild(self):
-        return self.left_child != None
+def recsearch(current_node:TreeNode, key):
+
+    if key == current_node.key:
+        return True
     
-    def hasRightChild(self):
-        return self.right_child != None
+    if key <= current_node.key and current_node.left_node is not None:
+        return recsearch(current_node.left_node, key)
+    elif key > current_node.key and current_node.right_node is not None:
+        return recsearch(current_node.right_node, key)
+    else:
+        return False
+
+def recwrite(current_node:TreeNode, ordered_list:list):
     
-    def isLeftChild(self):
-        return self.parent & self.parent.left_child == self
+    if current_node is None:
+        return
     
-    def isRightChild(self):
-        return self.parent & self.parent.hasRightChild== self
+    recwrite(current_node.left_node, ordered_list)
+
+    ordered_list.append(current_node.ley)
+
+    recwrite(current_node.right_node, ordered_list)
     
-    def isRoot(self):
-        return self.parent == None
-    
-    def isLeaf(self):
-        return self.right_child == None & self.left_child == None
-    
-    def hasChildren(self):
-        return self.right_child | self.left_child
