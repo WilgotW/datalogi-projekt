@@ -6,6 +6,8 @@ def make_tree_from_input():
     while data != "#":
         tree.store(data)
         data = input().strip()
+
+    print("Numbers entered")
     return tree
 
 def search_input(tree):
