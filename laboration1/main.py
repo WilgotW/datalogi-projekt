@@ -20,10 +20,12 @@ class Pokemon:
         return f"#{self.index} {self.name} - {self.hp}HP"
 
     def __lt__(self, other):
-        if(self.hp < other.hp):
+        if(int(self.hp) == int(other.hp)):
+            if(int(self.index) > int(other.index)):
+                return True
+        elif(int(self.hp) < int(other.hp)):
             return True
-        if(self.index < other.index):
-            return True
+    
         return False
 
 
@@ -50,10 +52,13 @@ class Pokedex:
             if rows[1][1] != "Bulbasaur": print("Test misslyckades. Förväntade mig 'Bulbasaur' men fick", rows[1][1], " i raden:\n\t", rows[1])
             all_pokemon = rows
 
+        print(all_pokemon)
+
         pokemon_class_list = []
         for p in all_pokemon:
             new_pokemon = Pokemon(p[0], p[1], p[2], p[3], p[4], p[5], p[6], p[7], p[8], p[9], p[10], p[11], p[12])
             pokemon_class_list.append(new_pokemon)
+            print(new_pokemon)
 
         self.pokemon = pokemon_class_list
         return pokemon_class_list
@@ -69,6 +74,8 @@ class Pokedex:
         for p in self.pokemon:
             if p.name == pokemon_name:
                 return p
+        return print("No pokemon found")    
+
 
 def out_of_bounds(pokemon_index, pokedex_count):
     if(pokemon_index > pokedex_count or pokemon_index < 0):
@@ -114,7 +121,7 @@ def main():
                 return print("Index out of bounds, try again")
 
             pokemon1 = pokedex.get_pokemon_by_index(pokemon_index[0])
-            pokemon2 = pokedex.get_pokemon_by_index(pokemon_index[0])
+            pokemon2 = pokedex.get_pokemon_by_index(pokemon_index[1])
 
             if(pokemon1 < pokemon2):
                 print(str(pokemon2) + " Vann över " + str(pokemon1))
