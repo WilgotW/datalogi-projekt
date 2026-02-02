@@ -9,7 +9,7 @@ class TreeNode:
 
 class Bintree: 
     def __init__(self):
-        self.root = None
+        self.root:TreeNode = None
         self.key = None
         pass
 
@@ -23,8 +23,9 @@ class Bintree:
 
     def __contains__(self, key):
         #return true if key is found in the tree
-        #call recsearch
-        if key == self.root.key:
+        if self.root is None:
+            return False
+        elif key == self.root.key:
             return True
         else:
             return recsearch(self.root, key)
@@ -48,7 +49,7 @@ def recstore(current_node:TreeNode, key):
         else:
             #keep going down
             recstore(current_node.left_node, key)
-    #go left
+    #go right
     if key > current_node.key:
         if current_node.right_node is None: 
             new_node = TreeNode(key)
