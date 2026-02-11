@@ -7,12 +7,12 @@ class LinkedListQ:
         if self.__head == None:
             return "No data"
 
-        que_string = str(self.__head) + ", "
+        que_string = str(self.__head)
 
         temp = self.__head
         while temp != self.__tail:
             temp = temp.next
-            que_string += str(temp) + ", "
+            que_string += str(temp)
 
         return que_string
 
@@ -21,9 +21,11 @@ class LinkedListQ:
         new_node = Node(data)
 
         if self.__tail != None:
+            #point current tail to new tail. 
             self.__tail.next = new_node
             self.__tail = new_node
         else:
+            #queue is empty
             self.__head = new_node
             self.__tail = new_node
 
@@ -31,7 +33,7 @@ class LinkedListQ:
         if self.__head == None:
             return None
 
-        return_data = self.__head
+        return_data = self.__head.data
         self.__head = self.__head.next
 
         if self.__head == None:
@@ -40,7 +42,7 @@ class LinkedListQ:
         return return_data
 
     def isEmpty(self):
-        if self.head == None:
+        if self.__head == None:
             return True
         return False
 
