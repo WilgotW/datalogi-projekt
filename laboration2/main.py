@@ -17,21 +17,6 @@ def card_trick(cards):
 
     return table
 
-    # while len(cards) > 0:
-    #     cards_left = []
-
-    #     for i in range(len(cards)):
-    #         if len(cards) == 1: #sista kortet läggs på bordet
-    #             table_cards.enqueue(cards[i])
-    #         elif i % 2: #var annat kort läggs på bordet
-    #             table_cards.enqueue(cards[i])
-    #         else: #kortet blir kvar i handen
-    #             cards_left.append(cards[i])
-    #     cards = cards_left[-1:] + cards_left[:-1] #shift cards by 1
-    # return table_cards
-
-    
-
 def main():
     answer = input("Vilken ordning ligger korten i?")
     cards = answer.strip().split()
