@@ -13,6 +13,11 @@ class Bintree:
         self.key = None
         pass
 
+    def __str__(self):
+        tree_content = []
+        recwrite(self.root, tree_content)
+        return str(tree_content)
+    
     def store(self, key):
         #sort new key into tree
         if self.root is None:
@@ -77,7 +82,7 @@ def recwrite(current_node:TreeNode, ordered_list:list):
     
     recwrite(current_node.left_node, ordered_list)
 
-    ordered_list.append(current_node.ley)
+    ordered_list.append(current_node.key)
 
     recwrite(current_node.right_node, ordered_list)
     
