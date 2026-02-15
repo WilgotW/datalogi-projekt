@@ -1,6 +1,7 @@
 from bintree import Bintree
 from LinkedListQ import LinkedListQ
 from helpers import *
+import sys
 
 alphabet = "abcdefghijklmnopqrstuvwxyzåäö"
 
@@ -40,28 +41,43 @@ def main():
     visited_words_tree = Bintree() #all visited nodes
     queue_of_words = LinkedListQ() #queue of words to be checked
 
-    starting_word = "söt"
-    target_word = "sur"
+    starting_word = sys.argv[1]
+    target_word = sys.argv[2]
 
     queue_of_words.enqueue(ParentNode(starting_word)) #add the starting word
 
     node_found = bfs(queue_of_words, target_word, word_tree, visited_words_tree)
     if node_found:
-        path = get_path(node_found, starting_word)
+        path = write_chain(node_found, starting_word)
         print(path)
+    else:
+        print("No path was found")
     
-def get_path(target_node, starting_word):
-    path = []
-    path.append(target_node.word)
-
-    temp = target_node
-    while temp.word != starting_word:
-        path.append(temp.parent.word)
-        temp = temp.parent
-
+def write_chain(current_node, starting_word, path = []):
+    path.append(current_node.word)
+    
+    if current_node.word != starting_word:
+        write_chain(current_node.parent, starting_word, path)    
+    else:
+        path.reverse()
     return path
 
 def bfs(queue_of_words:LinkedListQ, target_word:str, word_tree:Bintree, visited_words_tree:Bintree):   
+    while not queue_of_words.isEmpty():
+        current_node = queue_of_words.dequeue()
+
+        if current_node.word == target_word:
+            return current_node
+        
+            #get all children that have not been searched.
+        children = make_children(current_node, word_tree, visited_words_tree, queue_of_words)
+
+        for child in children:
+            #add all children to the queue
+            queue_of_words.enqueue(ParentNode(child, current_node))
+    return None
+
+def bfs_recursive(queue_of_words:LinkedListQ, target_word:str, word_tree:Bintree, visited_words_tree:Bintree):   
     current_node = queue_of_words.dequeue() #remove current visited node from queue
 
     #check if the current searched node is the target
