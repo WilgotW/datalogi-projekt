@@ -1,7 +1,7 @@
 from LinkedListQ import LinkedListQ
 
 def card_trick(cards):
-    wilgoteenbitch = []
+    table = []
 
     table_cards = LinkedListQ()
     for card in cards: 
@@ -13,9 +13,9 @@ def card_trick(cards):
         table_cards.enqueue(removed_val)
 
         added_val = table_cards.dequeue()
-        wilgoteenbitch.append(added_val)
+        table.append(added_val)
 
-    return wilgoteenbitch
+    return table
 
 def main():
     answer = input("Vilken ordning ligger korten i?")
