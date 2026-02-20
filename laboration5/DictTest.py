@@ -1,5 +1,6 @@
 import unittest
 from DictionaryWrapper import DictionaryWrapper
+from Hashtable import Hashtable
 
 class TestStringMethods(unittest.TestCase):
 

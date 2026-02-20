@@ -1,8 +1,8 @@
-def str_to_letters(string):
-    letters = []
+def str_to_chars(string):
+    char = []
     for ch in string:
-        letters.append(ch)
-    return letters
+        char.append(ch)
+    return char
 
 def list_to_str(lst):
     s = ""
