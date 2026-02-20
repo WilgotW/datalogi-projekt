@@ -18,7 +18,7 @@ class Bintree:
             self.root = TreeNode(key)
         else:
             recstore(self.root, key)
-
+    
     def __contains__(self, key):
         #return true if key is found in the tree
         if self.root is None:
@@ -32,6 +32,7 @@ class Bintree:
         #print tree in inorder
         ordered_list = []
         recwrite(self.root, ordered_list)
+        print(ordered_list)
 
 
 
@@ -60,7 +61,7 @@ def recstore(current_node:TreeNode, key):
 def recsearch(current_node:TreeNode, key):
     if key == current_node.key:
         return True
-    
+
     if key <= current_node.key and current_node.left_node is not None:
         return recsearch(current_node.left_node, key)
     elif key > current_node.key and current_node.right_node is not None:
