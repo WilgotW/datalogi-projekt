@@ -1,4 +1,5 @@
 from bintree import Bintree
+from test import * 
 
 def load_swedish_words():
     swedish = Bintree() #all unique words
@@ -30,6 +31,8 @@ def load_english_words(swedish):
 def main():
     # tree = make_tree_from_input()
     # search_input(tree)
+    tree_test = make_tree_from_input()
+    search_input(tree_test)
 
     swedish = load_swedish_words()
     english = load_english_words(swedish)

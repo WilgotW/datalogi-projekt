@@ -76,6 +76,19 @@ class LinkedListQ:
             previous = current
             current = current.next
 
+def basictest():
+    q = LinkedListQ()
+    q.enqueue(1)
+    q.enqueue(2)
+    x = q.dequeue()
+    y = q.dequeue() 
+
+    # Förväntat resultat
+    if (x == 1 and y == 2 and q.isEmpty()):
+        print("test OK")
+    else:
+        print("FAILED expected x=1 and y=2 and an empty list but got x =", x, " y =", y, " and empty list is", q.isEmpty())
+
 class Node:
     def __init__(self, data):
         self.data = data
@@ -84,3 +97,6 @@ class Node:
     def __str__(self):
         return str(self.data)
 
+
+if __name__ == "__main__":
+    basictest()

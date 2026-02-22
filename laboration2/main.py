@@ -2,11 +2,10 @@ from LinkedListQ import LinkedListQ
 
 def card_trick(cards):
     table = []
-
+    
     table_cards = LinkedListQ()
     for card in cards: 
         table_cards.enqueue(card)
-
 
     while table_cards.isEmpty() is False: 
         removed_val = table_cards.dequeue()

@@ -35,7 +35,6 @@ class Bintree:
         print(ordered_list)
 
 
-
 #recursive store
 def recstore(current_node:TreeNode, key):
     #create new node at right place
@@ -69,6 +68,7 @@ def recsearch(current_node:TreeNode, key):
     else:
         return False
 
+#In order
 def recwrite(current_node:TreeNode, ordered_list:list):
     if current_node is None:
         return
