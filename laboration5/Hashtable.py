@@ -10,10 +10,10 @@ class Hashtable:
         self.size  = size
         self.count = 0     
         self.table = [None] * size #create a list of empty slots
-        self.skip = 3
+        self.skip = 3 #probing skip number in collision cases
 
     def store(self, key, data = None):
-        store_slot(self.hashtable, key, data)
+        store_slot(self, key, data)
 
 
     def search(self, key):
@@ -44,34 +44,50 @@ class Hashtable:
     #     print()
 
     def hashFunction(self, item, hash_size):
-        #mid square method
-        squared = str(item * item)
-        
-        hash_value = None
-        
-        if len(squared) > 2:
-            mid_index = len(squared) // 2
-            squared = squared[mid_index-1:mid_index+1]
+        #if item is a stirng: convert string to a number 
+        if isinstance(item, str):
+            string_total = 0
+            for char in item:
+                string_total = (string_total * 31) + ord(char) #ord() turns a letter into its ASCII number
+            item = string_total
 
-        hash_value = int(squared) % hash_size
+        
+        #mid square method
+        squared = item * item
+        
+        hash_value = squared % hash_size
+
+        # hash_value = None
+        
+        # if len(squared) > 2:
+        #     mid_index = len(squared) // 2
+        #     squared = squared[mid_index-1:mid_index+1]
+
+        # hash_value = int(squared) % hash_size
         
         return hash_value
 
 def store_slot(hashtable:Hashtable, key, data):
     hash_value = hashtable.hashFunction(key, hashtable.size)
 
-    if hashtable.table[hash_value] is not None:
-        hash_value = handleCollision(hashtable, hash_value)
-    
-    hashtable.table[hash_value] = HashNode(key, data)
+    current_index = hash_value
 
+    for i in range(hashtable.size):
+        node = hashtable.table[current_index]
 
-def handleCollision(hashtable:Hashtable, index):
-    #open addressing 
-    new_index = (index + hashtable.skip) % hashtable.size
+        if node is None: 
+            hashtable.table[current_index] = HashNode(key, data)
+            hashtable.count += 1
+            return
+        elif node.key == key: 
+            #slot is taken, but by the same key we want to store
+            node.data = data #overwrite old data
+            return #dont increase size
+        #slot is taken by a different key, handle collision and find a new slot
+        current_index = handleCollision(hashtable, current_index)
 
-    if hashtable.table[index] is not None: 
-        return handleCollision(hashtable, new_index)
+    raise Exception("Hash table is full")
 
-    return new_index
+def handleCollision(hashtable:Hashtable, index): 
+    return (index + hashtable.skip) % hashtable.size #open addressing. Modulo makes sure wrap around works in the table
 
