@@ -1,4 +1,3 @@
-
 def str_to_letters(string):
     letters = []
     for ch in string:
