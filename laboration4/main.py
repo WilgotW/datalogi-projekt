@@ -21,15 +21,16 @@ def load_words():
 
 def make_children(node, word_tree, visited_words_tree:Bintree, queue_of_words:LinkedListQ):
     accepted_words = []
-
+    
     _alphabet = str_to_letters(alphabet) #All letters in the alphabet in a list
+    #["a", "b", "c", ...]
 
     visited_words_tree.store(node.word) #Mark parent node as visited
 
     #loop through all letters of the word and the alphabet.
     for l in range(len(node.word)):
         for i in range(len(_alphabet)):
-        
+
             #change one letter of the current word
             new_word = node.word
             new_word = str_to_letters(new_word)
@@ -52,7 +53,6 @@ def make_children(node, word_tree, visited_words_tree:Bintree, queue_of_words:Li
 
 
 def main():
-
     word_tree = load_words() #all valid word combinations
     visited_words_tree = Bintree() #all visited nodes
     queue_of_words = LinkedListQ() #queue of words to be checked
@@ -64,26 +64,26 @@ def main():
     queue_of_words.enqueue(ParentNode(starting_word)) #add the starting word
 
     node_found = bfs(queue_of_words, target_word, word_tree, visited_words_tree)
-    
+
     if node_found:
         path = write_chain(node_found, starting_word)
         print(path)
     else:
         print("No path was found")
     
-def write_chain(current_node, starting_word, path = []):
+def write_chain(current_node, starting_word):
+    if current_node.word == starting_word:
+        return [current_node.word]
+    
+    path = write_chain(current_node.parent, starting_word)
+    
     path.append(current_node.word)
     
-    if current_node.word != starting_word:
-        write_chain(current_node.parent, starting_word, path)    
-    else:
-        path.reverse() #flip the order of the list
     return path
 
 def bfs(queue_of_words:LinkedListQ, target_word:str, word_tree:Bintree, visited_words_tree:Bintree):   
     while not queue_of_words.isEmpty():
         current_node = queue_of_words.dequeue()
-
 
         if current_node.word == target_word:
             return current_node
