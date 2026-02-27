@@ -1,8 +1,7 @@
-
 #Slot class for hash table
 class HashNode:
     def __init__(self, key = "", data = None):
-        self.key = key
+        self.key = key #node identifier 
         self.data = data
 
 class Hashtable:
@@ -15,7 +14,6 @@ class Hashtable:
     def store(self, key, data = None):
         store_slot(self, key, data)
 
-
     def search(self, key):
         hash_value = self.hashFunction(key, self.size)
         
@@ -24,6 +22,7 @@ class Hashtable:
             if self.table[current_index].key == key:
                 return self.table[current_index].data
             
+            print("was taken, skipped 3")
             current_index = (current_index + self.skip) % self.size
             if current_index == hash_value: 
                 #looped around the hash
@@ -43,27 +42,17 @@ class Hashtable:
     #     # Frivillig uppgift
     #     print()
 
-    def hashFunction(self, item, hash_size):
+    def hashFunction(self, key, hash_size):
         #if item is a stirng: convert string to a number 
-        if isinstance(item, str):
+        if isinstance(key, str):
             string_total = 0
-            for char in item:
+            for char in key:
                 string_total = (string_total * 31) + ord(char) #ord() turns a letter into its ASCII number
-            item = string_total
+            key = string_total
 
-        
-        #mid square method
-        squared = item * item
-        
+        #x(mid square method)
+        squared = key * key
         hash_value = squared % hash_size
-
-        # hash_value = None
-        
-        # if len(squared) > 2:
-        #     mid_index = len(squared) // 2
-        #     squared = squared[mid_index-1:mid_index+1]
-
-        # hash_value = int(squared) % hash_size
         
         return hash_value
 
@@ -83,11 +72,13 @@ def store_slot(hashtable:Hashtable, key, data):
             #slot is taken, but by the same key we want to store
             node.data = data #overwrite old data
             return #dont increase size
+        
         #slot is taken by a different key, handle collision and find a new slot
         current_index = handleCollision(hashtable, current_index)
 
     raise Exception("Hash table is full")
 
 def handleCollision(hashtable:Hashtable, index): 
-    return (index + hashtable.skip) % hashtable.size #open addressing. Modulo makes sure wrap around works in the table
+    #open addressing (skiping slots). Modulo makes sure wrap around works in the table
+    return (index + hashtable.skip) % hashtable.size
 

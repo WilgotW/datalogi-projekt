@@ -1,4 +1,3 @@
-
 class DictionaryWrapper():
     def __init__(self):
         self.dictionary = {}

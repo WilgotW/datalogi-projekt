@@ -1,0 +1,13 @@
+init 5
+H
+H 1
+H
+H 1.00794
+H
+He
+He 4
+He
+He 4.002602
+He
+H
+#

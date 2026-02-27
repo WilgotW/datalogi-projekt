@@ -1,0 +1,13 @@
+New size: 5
+KeyError: H
+H <- 1
+H: 1
+H <- 1.00794
+H: 1.00794
+KeyError: He
+He <- 4
+He: 4
+He <- 4.002602
+He: 4.002602
+H: 1.00794
+#
