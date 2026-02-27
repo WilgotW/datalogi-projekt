@@ -22,7 +22,6 @@ class Hashtable:
             if self.table[current_index].key == key:
                 return self.table[current_index].data
             
-            print("was taken, skipped 3")
             current_index = (current_index + self.skip) % self.size
             if current_index == hash_value: 
                 #looped around the hash
@@ -36,7 +35,6 @@ class Hashtable:
             return True
         except KeyError:
             return False
-        
 
     # def __getitem__(self, nyckel):
     #     # Frivillig uppgift
@@ -81,4 +79,3 @@ def store_slot(hashtable:Hashtable, key, data):
 def handleCollision(hashtable:Hashtable, index): 
     #open addressing (skiping slots). Modulo makes sure wrap around works in the table
     return (index + hashtable.skip) % hashtable.size
-
