@@ -1,4 +1,4 @@
-from hashtable import * 
+from hashtable import *
 
 def load_hashtable(file_path):
     hash_table = None
@@ -19,9 +19,13 @@ def test():
 
     while True:
         print("Enter Key: ")
-        key = input()
-        response = hash_table.search(key)
-        print(response)
+        key = input().strip().strip('"\'') 
+        
+        try:
+            response = hash_table.search(key)
+            print("Found:", response)
+        except KeyError:
+            print(f"Error: The key '{key}' was not found in the hash table.")
 
 if __name__ == '__main__':
     test()
