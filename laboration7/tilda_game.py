@@ -1,4 +1,5 @@
 import copy, random, pickle, os
+from pokemon_classes import * 
 
 g_savefile = "tildagame.pickle"
 
@@ -61,3 +62,10 @@ def loadpokemon():
         pokemon = pickle.load(fil)
         print(pokemon, "level", pokemon.level, "loaded")
         return pokemon
+
+
+def main():
+    pokedex = Pokedex()
+    playgame(pokedex)
+
+main()

@@ -18,6 +18,7 @@ class Hashtable:
         hash_value = self.hashFunction(key, self.size)
         
         current_index = hash_value
+
         while self.table[current_index] is not None:
             if self.table[current_index].key == key:
                 return self.table[current_index].data
@@ -27,7 +28,7 @@ class Hashtable:
                 #looped around the hash
                 break
 
-        raise KeyError
+        raise KeyError #did not find searched value
 
     def __contains__(self, key): 
         try:
@@ -36,15 +37,12 @@ class Hashtable:
         except KeyError:
             return False
 
-    # def __getitem__(self, nyckel):
-    #     # Frivillig uppgift
-    #     print()
-
     def hashFunction(self, key, hash_size):
         #if item is a stirng: convert string to a number 
         if isinstance(key, str):
             string_total = 0
             for char in key:
+                #order matters
                 string_total = (string_total * 31) + ord(char) #ord() turns a letter into its ASCII number
             key = string_total
 
@@ -59,20 +57,21 @@ def store_slot(hashtable:Hashtable, key, data):
 
     current_index = hash_value
 
+
     for i in range(hashtable.size):
         node = hashtable.table[current_index]
 
-        if node is None: 
+        if node is None: #empty
             hashtable.table[current_index] = HashNode(key, data)
             hashtable.count += 1
             return
-        elif node.key == key: 
+        elif node.key == key: #replace
             #slot is taken, but by the same key we want to store
             node.data = data #overwrite old data
             return #dont increase size
         
         #slot is taken by a different key, handle collision and find a new slot
-        current_index = handleCollision(hashtable, current_index)
+        current_index = handleCollision(hashtable, current_index) #collision
 
     raise Exception("Hash table is full")
 

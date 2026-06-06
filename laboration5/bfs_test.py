@@ -25,7 +25,6 @@ def load_words():
 
     return word_table
 
-
 def make_children(node, word_table:Hashtable, visited_words_table:Hashtable, queue_of_words:LinkedListQ):
     accepted_words = []
     
