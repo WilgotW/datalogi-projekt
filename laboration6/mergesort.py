@@ -1,5 +1,6 @@
 #Kod skapad av Gemini. 
 
+
 def merge_sort(arr):
     # Base case: If the array has 1 or 0 elements, it is already sorted
     if len(arr) <= 1:
@@ -45,3 +46,4 @@ def merge(left, right):
         j += 1
 
     return sorted_array
+
