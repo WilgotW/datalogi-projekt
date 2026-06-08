@@ -73,18 +73,18 @@ class Pokedex:
         return pokedict
 
     def __getitem__(self, key):
-        if isinstance(key, str):
-            if key.isdigit():
-                key = int(key)
-            else:
+        if isinstance(key, str): #string? 
+            if key.isdigit(): #is it a digit?
+                key = int(key) #turn to a integer
+            else: #not a digit
                 found_pokemon = self.pokemon.get(key.lower())
                 if found_pokemon:
-                    return found_pokemon
+                    return found_pokemon #return pokemon by its name.
         
-        if isinstance(key, int):
-            for p in self.pokemon.values():
+        if isinstance(key, int): #integer?
+            for p in self.pokemon.values(): #return pokemon by integer
                 if int(p.id) == key:
-                    return p
+                    return p 
 
     def move(self, p1, p2, special = False):
         A = p1.level
