@@ -2,10 +2,15 @@ import json, re, random
 
 def extract_attack_msg(filepath):
     with open(filepath, 'r', encoding='utf-8') as f:
-        file_content = f.read()
-    
+        file_content = f.read() #puts all file contents in a string
+
+    #() - capture wanted group
+    #. - look at the next character, doesnt matter if its a letter, symbol, etc
+    #* - keep looking at the next character
+    #? - stop when we find the target (.)
+    #\. - the target (.)
     pattern = r"<td><small>(.*?)\."
-    return re.findall(pattern, file_content)
+    return re.findall(pattern, file_content) #hittar alla element mellan "<td><small>" och "."
 
 class Pokemon:
     def __init__(self, name, id, type, hp, attack, defense, sp_attack, sp_defense, speed, msg, sp_msg):
@@ -23,7 +28,7 @@ class Pokemon:
         self.sp_msg = sp_msg
 
     def __str__(self):
-        return str(self.name).capitalize()
+        return str(self.name).capitalize() #Big starting letter
 
     def __lt__(self, other):
         if(int(self.hp) == int(other.hp)):
@@ -50,13 +55,14 @@ class Pokedex:
 
         attack_messages = extract_attack_msg("List_of_moves_mod.html")
 
+        
         pokedict = {}
         for k in pokelist:
-            sp_msg = random.choice(attack_messages)
-            msg = random.choice(attack_messages)
+            sp_msg = random.choice(attack_messages) #radnom special attack
+            msg = random.choice(attack_messages) #random attack message
             
             english_name = k["name"]["english"]
-            pokedict[english_name.lower()] = Pokemon(
+            pokedict[english_name.lower()] = Pokemon( #adds new pokemon to pokedex
                 name=english_name, 
                 id=k["id"], 
                 type=k["type"], 
@@ -71,12 +77,14 @@ class Pokedex:
             )
 
         return pokedict
+    
 
     def __getitem__(self, key):
         if isinstance(key, str): #string? 
             if key.isdigit(): #is it a digit?
                 key = int(key) #turn to a integer
             else: #not a digit
+
                 found_pokemon = self.pokemon.get(key.lower())
                 if found_pokemon:
                     return found_pokemon #return pokemon by its name.
@@ -105,7 +113,7 @@ class Pokedex:
     
         second_multiplier = 1 
         
-        if len(defender_types) > 1:
+        if len(defender_types) > 1: #if defender has two types 
             second_multiplier = type_match(attacker_type, defender_types[1])
                 
         Y = first_multiplier * second_multiplier
@@ -113,42 +121,48 @@ class Pokedex:
         return Y
     
     def random_opponent(self, pokemon:Pokemon):
-        random_name = random.choice(list(self.pokemon.keys()))
+        random_name = random.choice(list(self.pokemon.keys())) #pick a random name
+        random_pokemon = self.pokemon[random_name] #get the pokemon
         
-        random_pokemon = self.pokemon[random_name]
-        
-        while pokemon.type == random_pokemon.type:
+        while pokemon.type == random_pokemon.type: #if we get the same opponent as our self, find a new opponent
             random_name = random.choice(list(self.pokemon.keys()))
             random_pokemon = self.pokemon[random_name]
             
         return random_pokemon
 
 def type_match(attacker_type, defender_type):          
-    data = {}
+    data = {} #the whole table or multipliers 
 
     with open('statchart.txt', 'r') as file:
         lines = file.readlines()
 
-    header_line = lines[0].strip()
-    types = [t.lower() for t in header_line.split()]
+    header_line = lines[0].strip() #the first line (header)
 
-    # Filter out empty lines to ensure rows align properly with types
-    data_lines = [line.strip() for line in lines[1:] if line.strip()]
+    types = [] #extract all the types 
+    for col in header_line.split():
+        types.append(col.lower())
 
-    # Iterate using the length of types, avoiding IndexErrors from extra file lines
+    #Filter out empty lines at beginning and end to ensure rows align properly with types
+    data_lines = []
+    for line in lines[1:]: #skip header line
+        if line.strip():
+            data_lines.append(line.strip())
+
+    #Iterate using the length of types
     for row_index in range(len(types)):
-        # Stop if we run out of data lines before we run out of types
+
+        #Stop if we run out of data lines
         if row_index >= len(data_lines):
             break
             
-        line = data_lines[row_index]
-        current_attacker = types[row_index]
-        data[current_attacker] = {}
+        line = data_lines[row_index] #one line
+        current_attacker = types[row_index] #current attacker row
+        data[current_attacker] = {} 
         
-        multipliers = line.split()
+        multipliers = line.split() #all cols
         
         for col_index in range(len(multipliers)):
-            # Ensure we don't go out of bounds on columns either
+            #Ensure we dont go out of bounds on columns
             if col_index >= len(types):
                 break
                 
@@ -157,9 +171,5 @@ def type_match(attacker_type, defender_type):
             
             data[current_attacker][current_defender] = float(value)
 
-    return data[attacker_type.lower()][defender_type.lower()]
+    return data[attacker_type.lower()][defender_type.lower()] #return the matching multiplier
 
-def out_of_bounds(pokemon_index, pokedex_count):
-    if(pokemon_index > pokedex_count or pokemon_index < 0):
-        return True
-    return False
